@@ -12,14 +12,27 @@ class LoginForm extends Component {
     this.setState({ error: '', loading: true });
 
     //returns a promise w/r/t the authentication attempt
+    // "catch" (.py try-except) statement:
     firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
       .catch(() => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .catch(() => {
-            //would love to not hard code this in
-            this.setState({ error: 'Authentication failed.' });
-          });
-      });
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFail.bind(this));
+        });
+  }
+
+  onLoginFail() {
+    this.setState({ error: 'Authentication Jello Failed', loading: false });
+  }
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      error: '',
+      loading: false
+    });
   }
 
   renderButton() {
@@ -35,8 +48,11 @@ class LoginForm extends Component {
   }
 
   // dismissKeyboard() {
-  //   TextInputState.blurTextInput(TextInputState.currentlyFocusedField());
-  // }
+  //   if (this.state.deput) {
+  //      // dismiss,please TextInputState.blurTextInput(TextInputState.currentlyFocusedField());
+  //   }
+  //
+  //set deput:'' at top; call {this.dismissKeyboard()} - on top of both text sections? separate for each? //http://stackoverflow.com/questions/34087459/focus-style-for-textinput-in-react-native
 
   render() {
     return (
@@ -65,7 +81,7 @@ class LoginForm extends Component {
         </Text>
 
         <CardSection>
-
+          {this.renderButton()}
         </CardSection>
       </Card>
     );

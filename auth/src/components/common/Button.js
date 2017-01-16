@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, Platform } from 'react-native';
 
 const Button = ({ onPress, children }) => {
   const { buttonStyle, textStyle } = styles;
@@ -26,12 +26,19 @@ const styles = {
     flex: 1, //'fill as much content as you can'
     alignSelf: 'stretch', //flexbox rule: stretch to fill the limits of the container
     backgroundColor: '#fff',
-    borderRadius: 5,
     borderWidth: 1,
     borderColor: '#007aff',
     marginLeft: 5,
-    marginRight: 5
-  }
+    marginRight: 5,
+    ...Platform.select({
+      ios: {
+        borderRadius: 5,
+      },
+      android: {
+        borderRadius: 1,
+      },
+    }),
+  },
 };
 
 export { Button };
