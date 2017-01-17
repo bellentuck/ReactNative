@@ -26,7 +26,6 @@ const styles = {
     flex: 1, //'fill as much content as you can'
     alignSelf: 'stretch', //flexbox rule: stretch to fill the limits of the container
     backgroundColor: '#fff',
-    //borderRadius: 5,
     borderWidth: 1,
     borderColor: '#007aff',
     marginLeft: 5,
@@ -39,7 +38,7 @@ const styles = {
         borderRadius: 1,
       },
     }),
-  }
+  },
 };
 
-export default Button;
+export { Button };
