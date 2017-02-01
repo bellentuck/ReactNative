@@ -1,0 +1,7 @@
+{
+  "extends": "rallycoding",
+  "rules": {
+    # turn off single errors #
+    "arrow-body-style": 0
+    }
+}
