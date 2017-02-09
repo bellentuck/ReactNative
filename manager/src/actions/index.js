@@ -1,9 +1,11 @@
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
-  LOGIN_USER_FAIL
+  LOGIN_USER_FAIL,
+  LOGIN_USER
 } from './types';
 
 export const emailChanged = (text) => {
@@ -24,7 +26,9 @@ export const passwordChanged = (text) => {
 export const loginUser = ({ email, password }) => {
   // I. return an anonymous function,
   // which will take 'dispatch' as an argument,
-  //  II. and will return an asynchronous method,
+  //  II. and will return
+  // a. any typed actions to be sent straightaway off to reducers, &
+  // b. an asynchronous method,
   //  which returns a promise,
   //    III. and ultimately returns another (.then) method (exception: .catch case),
   //    which in turn takes 'user' as an argument,
@@ -38,6 +42,9 @@ export const loginUser = ({ email, password }) => {
   // I.
   return (dispatch) => {
     // II.
+    //a.
+    dispatch({ type: LOGIN_USER });
+    //b.
     firebase.auth().signInWithEmailAndPassword(email, password)
       // III.
       .then(user =>
@@ -63,8 +70,9 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
-};
 
+  Actions.main();
+};
 
 // "type" values form incredibly strong links between actions and reducers --
 // reducers need to be able to pick up on dispatched actions.
