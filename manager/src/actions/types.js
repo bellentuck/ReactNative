@@ -6,6 +6,8 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 
 export const EMPLOYEE_UPDATE = 'employee_update';
+export const EMPLOYEE_CREATE = 'employee_create';
+export const EMPLOYEES_FETCH_SUCCESS = 'employees_fetch_success';
 // just has to be a string that's unique against all the other actions that we have:
 //this is just a little marker on the action and the reducer.
 //e.g., 'login_user' refers to commencing the login practice. purely semantic.

@@ -2,7 +2,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-// B. Make a component
+// B. Add component propTypes!
+Header.propTypes = {
+  headerText: React.PropTypes.string
+};
+
+// C. Make the component
 //name it a function that is the same as the file it's in.
 const Header = (props) => {
   const { textStyle, viewStyle } = styles;
@@ -33,5 +38,5 @@ const styles = {
   }
 };
 
-// C. Make the component available to other parts of the app
+// D. Make the component available to other parts of the app
 export { Header };

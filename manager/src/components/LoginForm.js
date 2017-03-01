@@ -64,6 +64,16 @@ class LoginForm extends Component {
   }
 }
 
+LoginForm.propTypes = {
+  emailChanged: React.PropTypes.func,
+  passwordChanged: React.PropTypes.func,
+  loginUser: React.PropTypes.func,
+  loading: React.PropTypes.bool,
+  email: React.PropTypes.string,
+  password: React.PropTypes.string,
+  error: React.PropTypes.string
+};
+
 const styles = {
   errorTextStyle: {
     fontSize: 20,
