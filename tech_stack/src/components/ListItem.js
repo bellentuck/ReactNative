@@ -11,10 +11,10 @@ import { connect } from 'react-redux';
 import { CardSection } from './common';
 import * as actions from '../actions';
 
-// Enable LayoutAnimation under Android
-if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+ListItem.propTypes = {
+  library: React.PropTypes.string,
+  expanded: React.PropTypes.bool
+};
 
 class ListItem extends Component {
   componentWillUpdate() {
@@ -64,6 +64,11 @@ const styles = {
     paddingLeft: 5
   }
 };
+
+// Enable LayoutAnimation under Android
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 //'ownProps' to become this.props equivalents under render for this component.
 //So 'mapStateToProps' is a chance to pre-render.

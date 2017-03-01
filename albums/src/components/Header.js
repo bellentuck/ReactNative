@@ -33,5 +33,9 @@ const styles = {
   }
 };
 
+Header.propTypes = {
+  headerText: React.PropTypes.string
+};
+
 // C. Make the component available to other parts of the app
 export default Header;
