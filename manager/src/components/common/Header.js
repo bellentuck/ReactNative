@@ -3,9 +3,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 // B. Add component propTypes!
-Header.propTypes = {
-  headerText: React.PropTypes.string
-};
+// Header.propTypes = {
+//   headerText: React.PropTypes.string
+// };
 
 // C. Make the component
 //name it a function that is the same as the file it's in.

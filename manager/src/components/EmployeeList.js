@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { employeesFetch } from '../actions';
-import ListItem from './EmployeeListItem';
+import EmployeeListItem from './EmployeeListItem';
 
 class EmployeeList extends Component {
   componentWillMount() {
@@ -29,7 +29,7 @@ class EmployeeList extends Component {
   }
 
   renderRow(employee) {
-    return <ListItem employee={employee} />;
+    return <EmployeeListItem employee={employee} />;
   }
 
   render() {
@@ -43,6 +43,10 @@ class EmployeeList extends Component {
     );
   }
 }
+
+EmployeeList.propTypes = {
+  employeesFetch: React.PropTypes.func
+};
 
 const mapStateToProps = state => {
   const employees = _.map(state.employees, (val, uid) => {

@@ -26,6 +26,10 @@ class LibraryList extends Component {
   }
 }
 
+LibraryList.propTypes = {
+  libraries: React.PropTypes.array
+};
+
 const mapStateToProps = state => {
   return { libraries: state.libraries };
 };

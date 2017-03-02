@@ -39,23 +39,23 @@ class EmployeeCreate extends Component {
           <Text style={styles.pickerTextStyle}>Shift</Text>
           <Picker
             // "please expand to fill all the area available"
-            // style={{ flex: 1 }}
+            //style={{ flex: 1 }}
             // for some reason 'flex:1' was causing the picker to appear below everything else
             //upon switching flexDirection to 'column'.
             selectedValue={this.props.shift}
             onValueChange={value => this.props.employeeUpdate({ prop: 'shift', value })}
           >
-          {['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-            'Friday', 'Saturday', 'Sunday'].forEach(day =>
-              <Picker.Item label={day} value={day} />)}
+            <Picker.Item label="Monday" value="Monday" />
+            <Picker.Item label="Tuesday" value="Tuesday" />
+            <Picker.Item label="Wednesday" value="Wednesday" />
+            <Picker.Item label="Thursday" value="Thursday" />
+            <Picker.Item label="Friday" value="Friday" />
+            <Picker.Item label="Saturday" value="Saturday" />
+            <Picker.Item label="Sunday" value="Sunday" />
             {
-              // <Picker.Item label="Monday" value="Monday" />
-            // <Picker.Item label="Tuesday" value="Tuesday" />
-            // <Picker.Item label="Wednesday" value="Wednesday" />
-            // <Picker.Item label="Thursday" value="Thursday" />
-            // <Picker.Item label="Friday" value="Friday" />
-            // <Picker.Item label="Saturday" value="Saturday" />
-            // <Picker.Item label="Sunday" value="Sunday" />
+              // ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+              // 'Friday', 'Saturday', 'Sunday'].forEach(day =>
+              //   <Picker.Item label={day} value={day} />)
             }
           </Picker>
         </CardSection>

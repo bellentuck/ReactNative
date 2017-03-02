@@ -11,11 +11,6 @@ import { connect } from 'react-redux';
 import { CardSection } from './common';
 import * as actions from '../actions';
 
-ListItem.propTypes = {
-  library: React.PropTypes.string,
-  expanded: React.PropTypes.bool
-};
-
 class ListItem extends Component {
   componentWillUpdate() {
     LayoutAnimation.spring();
@@ -53,6 +48,11 @@ class ListItem extends Component {
     );
   }
 }
+
+ListItem.propTypes = {
+  library: React.PropTypes.object,
+  expanded: React.PropTypes.bool
+};
 
 const styles = {
   titleStyle: {
