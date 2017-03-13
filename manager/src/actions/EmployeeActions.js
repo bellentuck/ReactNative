@@ -23,6 +23,7 @@ export const employeeCreate = ({ name, phone, shift }) => {
   return (dispatch) => {
     // pass to ref path thru JSON data store
     firebase.database().ref(`/users/${currentUser.uid}/employees`)
+      //push creates a new property
       .push({ name, phone, shift })
       .then(() => {
         dispatch({ type: EMPLOYEE_CREATE });
@@ -45,5 +46,17 @@ export const employeesFetch = () => {
       .on('value', snapshot => {
         dispatch({ type: EMPLOYEES_FETCH_SUCCESS, payload: snapshot.val() });
       });
+  };
+};
+
+// need to specify employee yr trying to save
+export const employeeSave = ({ name, phone, shift, uid }) => {
+  const { currentUser } = firebase.auth();
+
+  return () => {
+    firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+      //set updates an existing property
+      .set({ name, phone, shift })
+      .then(() => console.log('saved!'));
   };
 };

@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { CardSection } from './common';
 
 class EmployeeListItem extends Component {
+  onRowPress() {
+    // go to Router.js 'scene' w/ the following key,
+    // communicating which employee you want to show.
+    Actions.employeeEdit({ employee: this.props.employee });
+  }
   render() {
     const { name } = this.props.employee;
 
     return (
-      <CardSection>
-        <Text style={styles.titleStyle}>
-          {name}
-        </Text>
-      </CardSection>
+      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+        <View>
+          <CardSection>
+            <Text style={styles.titleStyle}>
+              {name}
+            </Text>
+          </CardSection>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

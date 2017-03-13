@@ -50,7 +50,7 @@ EmployeeList.propTypes = {
 
 const mapStateToProps = state => {
   const employees = _.map(state.employees, (val, uid) => {
-    return { ...val, uid }; // { shift: 'Monday', name: 'S', id: '1j2j34'};
+    return { ...val, uid }; // { shift: 'Monday', name: 'Methuselah', id: '9j6j9'};
   });
   return { employees }; //-> this.props.employees
 };
