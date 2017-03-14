@@ -3,4 +3,4 @@ import {
 } from 'react-native';
 import App from './src/App';
 
-AppRegistry.registerComponent('GrabBag', () => App);
+AppRegistry.registerComponent('timer', () => App);
