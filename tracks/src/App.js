@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import Svg from 'react-native-svg';
+import { Motion, spring } from 'react-motion';
 //import { FourCurve } from './components/TrackPieces';
 import FourCurve from './components/TrackPieces/FourCurve';
 import FourStraight from './components/TrackPieces/FourStraight';
@@ -24,6 +25,20 @@ class App extends Component {
         <SubwayCar xStart={123} yStart={242.7} rotation={90} />
         <SubwayCar xStart={180} yStart={242.7} rotation={90} />
         <SubwayCar xStart={237} yStart={242.7} rotation={90} />
+        <BabysFirstTrain />
+        {/*<Motion style={{x: spring(400)}}>
+          {({x}) =>
+            // children is a callback which should accept the current value of
+            // `style`
+            <div className="demo0">
+              <div className="demo0-block" style={{
+                WebkitTransform: `translate3d(${x}px, 0, 0)`,
+                transform: `translate3d(${x}px, 0, 0)`,
+              }} />
+            </div>
+          }
+        </Motion>*/}
+
         {/*Circle:
         <FourCurve xStart={100} yStart={250} rotation={0} />
         <FourCurve xStart={160} yStart={190} rotation={90} />
