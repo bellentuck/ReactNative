@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import Svg from 'react-native-svg';
-import { Motion, spring } from 'react-motion';
-//import { FourCurve } from './components/TrackPieces';
+// import { Motion, spring } from 'react-motion';
+//import { FourCurve, FourStraight } from './components/TrackPieces';
 import FourCurve from './components/TrackPieces/FourCurve';
 import FourStraight from './components/TrackPieces/FourStraight';
 import BabysFirstTrain from './components/Trains/BabysFirstTrain';
 import SubwayCar from './components/Trains/SubwayCar';
+import ReduxThunk from 'redux-thunk';
+import reducers from './reducers';
+
 
 class App extends Component {
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
     return (
+      <Provider store={store}>
       <Svg height="750" width="450">
         <FourStraight xStart={0} yStart={250} rotation={90}/>
         <FourStraight xStart={66} yStart={250} rotation={90}/>
@@ -59,6 +67,7 @@ class App extends Component {
         <FourStraight xStart={100} yStart={250-66-66-66} rotation={0} />
         */}
       </Svg>
+      </Provider>
     );
   }
 }
