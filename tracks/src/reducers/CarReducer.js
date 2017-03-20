@@ -1,6 +1,8 @@
-import {} from '../actions/types';
+import {
+  CAR_NEXT_ANIMATION_STEP
+} from '../actions/types';
 
-//const BACKGROUND_POS_START = 50
+const BACKGROUND_POS_START = 50
 
 const INITIAL_STATE = {
   animationProgress : 0,
@@ -9,7 +11,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'CAR.SET_NEXT_ANIMATION STEP':
+    case CAR_NEXT_ANIMATION_STEP:
       let progress = action.progress;
       //calculate background position from
       //progress and BACKGROUND_POS_START
