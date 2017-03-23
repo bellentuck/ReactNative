@@ -9,60 +9,38 @@ import FourStraight from './components/TrackPieces/FourStraight';
 import BabysFirstTrain from './components/Trains/BabysFirstTrain';
 import SubwayCar from './components/Trains/SubwayCar';
 
-const Dimensions = require('Dimensions');
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-var SQUARE_DIMENSIONS = 30;
-var SPRING_CONFIG = {tension: 2, friction: 3}; //Soft spring
+
+
+// animate SubwayCar
+var AnimatedCar = Animated.createAnimatedComponent(SubwayCar);
 
 
 
 class App extends Component {
-  // getInitialState() {
-  //   return {
-  //     pan: new Animated.ValueXY()
-  //   };
-  // }
   constructor(props){
     super(props);
     this.state = {
-      pan: new Animated.ValueXY()
+      carAnimationValue: new Animated.ValueXY({ x: 66, y: 242.7 }),
+      //car: new Animated.Value(0) //(1)
+      //pan: new Animated.ValueXY()
     }
   }
   componentDidMount() {
-    this.startAndRepeat();
+    const animationConfig = {
+      duration: 2000, // milliseconds
+      delay: 1000,
+      easing: Easing.in(Easing.ease),
+    }
+    const value = this.state.carAnimationValue;
+    const slidingInAnimation = Animated.timing(value, {
+      ...animationConfig,
+      toValue: {
+        x: 400,
+        y: 0,
+      },
+    }).start();
   }
-  startAndRepeat() {
-    this.triggerAnimation(this.startAndRepeat);
-  }
-  triggerAnimation(cb) {
-    Animated.sequence([
-      Animated.spring(this.state.pan, {
-            ...SPRING_CONFIG,
-            toValue: {x: 0, y: height - SQUARE_DIMENSIONS} //animate to bottom left
-      }),
-      Animated.spring(this.state.pan, {
-          ...SPRING_CONFIG,
-          toValue: {x: width - SQUARE_DIMENSIONS, y: height - SQUARE_DIMENSIONS} // animated to bottom right
-      }),
-      Animated.spring(this.state.pan, {
-            ...SPRING_CONFIG,
-            toValue: {x: width - SQUARE_DIMENSIONS, y: 0} //animate to top right
-      }),
-      Animated.spring(this.state.pan, {
-          ...SPRING_CONFIG,
-          toValue: {x: 0, y: 0} // return to start
-      })
-    ]).start(cb);
-  }
-  getStyle() {
-    return [
-      styles.square,
-      {
-        transform: this.state.pan.getTranslateTransform()
-      }
-    ];
-  }
+
   // constructor(props) {
   //   super(props);
   //   // this.state = {
@@ -97,12 +75,16 @@ class App extends Component {
   // }
 
   render() {
+    const carAnimationStyle = this.state
+      .carAnimationValue
+      .getTranslateTransform();
   //   const slidingAnimationStyle = this.state
   // .slidingAnimationValue
   // .getTranslateTransform(); // Get the initial transform style
     return (
+
       <View style={styles.container}>
-      <Animated.View style={this.getStyle()} />
+      {/*<Animated.View style={this.getStyle()} />*/}
       <Svg height="750" width="450">
         <FourStraight xStart={0} yStart={250} rotation={90}/>
         <FourStraight xStart={66} yStart={250} rotation={90}/>
@@ -124,10 +106,13 @@ class App extends Component {
             }],
         }}>
           {this.props.children}*/}
-          <SubwayCar xStart={66} yStart={242.7} rotation={90} />
-          <SubwayCar xStart={123} yStart={242.7} rotation={90} />
-          <SubwayCar xStart={180} yStart={242.7} rotation={90} />
-          <SubwayCar xStart={237} yStart={242.7} rotation={90} />
+          <AnimatedCar style={carAnimationStyle} xStart={this.state.carAnimationValue.x} yStart={this.state.carAnimationValue.y} rotation={90} />
+          {/*
+          <AnimatedCar style={carAnimationStyle} xStart={66} yStart={242.7} rotation={90} />
+          <AnimatedCar xStart={123} yStart={242.7} rotation={90} />
+          <AnimatedCar xStart={180} yStart={242.7} rotation={90} />
+          <AnimatedCar xStart={237} yStart={242.7} rotation={90} />
+        */}
         {/*</Animated.View>*/}
         <BabysFirstTrain />
         {/*<Motion style={{x: spring(400)}}>
@@ -165,6 +150,7 @@ class App extends Component {
       </Svg>
       </View>
     );
+
   }
 }
 
@@ -172,10 +158,19 @@ const styles = {
   container: {
     flex: 1
   },
-  square: {
-    width: SQUARE_DIMENSIONS,
-    height: SQUARE_DIMENSIONS,
-    backgroundColor: 'blue'
+  vector: {
+    width: 100,
+    height: 100
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    color: '#333333',
+    marginBottom: 5,
+    marginTop: 100
   }
 };
 
