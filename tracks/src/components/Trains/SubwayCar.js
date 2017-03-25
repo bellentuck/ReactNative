@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { G, Rect, Polyline, Line } from 'react-native-svg';
+import { Animated } from 'react-native';
+import { G, Rect, Polyline, Line, Easing } from 'react-native-svg';
 
 class SubwayCar extends Component {
   render() {
@@ -21,11 +22,12 @@ class SubwayCar extends Component {
     const line1x = (xStart+2).toString();
     const line2x = (xStart+7).toString();
 
-
     return (
       <G
         rotate={rot}
         origin={`${x}, ${y}`}
+        x={this.props.x}
+        y={this.props.y}
       >
         <Rect
           x={x}

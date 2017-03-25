@@ -1,88 +1,101 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, Animated, Easing, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, Easing, StyleSheet, Animated } from 'react-native';
 //import { Dimensions } from 'Dimensions';
-import Svg, { G } from 'react-native-svg';
+import Svg, { G, Path, Rect, Line, Polyline } from 'react-native-svg';
+import RNAnimated from 'Animated';
+import AnimatedImplementation from 'AnimatedImplementation';
 // import { Motion, spring } from 'react-motion';
 //import { FourCurve, FourStraight } from './components/TrackPieces';
 import FourCurve from './components/TrackPieces/FourCurve';
 import FourStraight from './components/TrackPieces/FourStraight';
 import BabysFirstTrain from './components/Trains/BabysFirstTrain';
 import SubwayCar from './components/Trains/SubwayCar';
-
+import AnimateSubwayCar from './components/Trains/AnimateSubwayCar';
 
 
 // animate SubwayCar
 var AnimatedCar = Animated.createAnimatedComponent(SubwayCar);
+// let AnimatedPath = Animated.createAnimatedComponent(Path);
 
+//unneccessary, probs:
+// const Animate = {
+//   ...RNAnimated,
+//   Path: AnimatedImplementation.createAnimatedComponent(Path),
+// }
 
 
 class App extends Component {
+
+  // so basically this all should get put into Redux as a "CarMovementAction"/"CarMovementReducer"
+  // so that then, at a higher level, we can coordinate with the tracks themselves, feeding these expressions (e.g. curves) into "CarMovement"
+  //(now, that's not to say CarMovement can't *also* take attributes from the car itself (vs the tracks) - things like speed/easing. however, *direction* IS up to the tracks to determine!)
   constructor(props){
     super(props);
+    this._origin = { x: 200, y: 242.7 }
+    this._radius = 50
     this.state = {
-      carAnimationValue: new Animated.ValueXY({ x: 66, y: 242.7 }),
-      //car: new Animated.Value(0) //(1)
-      //pan: new Animated.ValueXY()
+    //   carAnimationValue: new Animated.ValueXY({ x: 66, y: 242.7 }),
+    // }
+      arcEndX: Math.sin(0) * this._radius,
+      arcEndY: Math.cos(0) * this._radius - this._radius,
+      largeArcFlag: Math.sin(0) >= 0 ? 0 : 1,
+      rotation: 90
     }
-  }
-  componentDidMount() {
-    const animationConfig = {
-      duration: 2000, // milliseconds
-      delay: 1000,
-      easing: Easing.in(Easing.ease),
-    }
-    const value = this.state.carAnimationValue;
-    const slidingInAnimation = Animated.timing(value, {
-      ...animationConfig,
-      toValue: {
-        x: 400,
-        y: 0,
-      },
-    }).start();
+    this.setArcEndFromRadians = this.setArcEndFromRadians.bind(this)
   }
 
-  // constructor(props) {
-  //   super(props);
-  //   // this.state = {
-  //   //   // slidingAnimationValue:
-  //   //   // new Animated.ValueXY({
-  //   //   //    x: 0,
-  //   //   //    y: 0
-  //   //   //  })
-  //   //
-  //   //   //fadeAnim: new Animated.Value(0), // init opacity 0
-  //   // };
-  // }
-  // {/*componentDidMount() {
-  //   Animated.timing(
-  //     this.state.fadeAnim,
-  //     {toValue: 1}
-  //   ).start();*/}
-  // componentDidMount() {
-  //   const animationConfig = {
-  //     duration: 2000, // milliseconds
-  //     delay: 1000, // milliseconds
-  //     easing: Easing.in(Easing.ease),
-  //   };
-  //   const value = this.state.slidingAnimationValue;
-  //   const slidingInAnimation = Animated.timing(value, {
-  //     ...animationConfig, // ES6 spread operator
-  //     toValue: {
-  //       x: 200,
-  //       y: 0,
-  //     },
-  //   }).start();
-  // }
+  setArcEndFromRadians(radians) {
+    this.setState({
+      arcEndX: Math.sin(radians) * this._radius,
+      arcEndY: Math.cos(radians) * this._radius - this._radius,
+      largeArcFlag: Math.sin(radians) >= 0 ? 0 : 1,
+      rotation: this.state.rotation+10
+    })
+  }
+
+  componentDidMount() {
+    let radians = 0
+      let timer = setInterval(() => {
+         radians += 0.02
+         this.setArcEndFromRadians(radians)
+      }, 16)
+  }
+
+// // componentDidMount W/ ANIMATED:
+//     const animationConfig = {
+//       duration: 2000, // milliseconds
+//       delay: 1000,
+//       easing: Easing.bezier(.66, .242, .250, .242)
+//       //easing: Easing.inOut(Easing.ease),
+//     }
+//     const value = this.state.carAnimationValue;
+// //Next step is to make the train move *along the track*.....
+//     const slidingInAnimation = Animated.sequence([
+//       Animated.timing(value, {
+//         ...animationConfig,
+//         toValue: {
+//           x: 250,
+//           y: 242.7
+//         },
+//       }),
+//       Animated.timing(value, {
+//         ...animationConfig,
+//         toValue: {
+//           x: 300,
+//           y: 202.7
+//         },
+//       }),
+//     ]).start();
+// }
 
   render() {
-    const carAnimationStyle = this.state
-      .carAnimationValue
-      .getTranslateTransform();
-  //   const slidingAnimationStyle = this.state
-  // .slidingAnimationValue
-  // .getTranslateTransform(); // Get the initial transform style
-    return (
+    // const carAnimationStyle = this.state
+    //   .carAnimationValue
+    //   .getTranslateTransform();
 
+
+
+    return (
       <View style={styles.container}>
       {/*<Animated.View style={this.getStyle()} />*/}
       <Svg height="750" width="450">
@@ -106,7 +119,15 @@ class App extends Component {
             }],
         }}>
           {this.props.children}*/}
-          <AnimatedCar style={carAnimationStyle} xStart={this.state.carAnimationValue.x} yStart={this.state.carAnimationValue.y} rotation={90} />
+        {/*<AnimateSubwayCar xStart={200} yStart={242.7} xEnd={250} yEnd={242.7} rotation={90} />*/}
+        {/* <Path
+        // d={ `M ${this._origin.x},${this._origin.y} l 0,50 a 50,50 0 ${this.state.largeArcFlag} 0 ${this.state.arcEndX},${this.state.arcEndY} z` }/>*/}
+
+          {/*<AnimatedCar style={carAnimationStyle} xStart={this.state.carAnimationValue.x} yStart={this.state.carAnimationValue.y} rotation={90} />*/}
+
+          <SubwayCar x={this._origin.x} y={this._origin.y} xStart={this.state.arcEndX} yStart={this.state.arcEndY} rotation={this.state.rotation}/>
+
+
           {/*
           <AnimatedCar style={carAnimationStyle} xStart={66} yStart={242.7} rotation={90} />
           <AnimatedCar xStart={123} yStart={242.7} rotation={90} />
