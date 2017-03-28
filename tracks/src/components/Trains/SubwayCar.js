@@ -38,6 +38,11 @@ class SubwayCar extends Component {
           strokeWidth="1"
           stroke="rgb(0,0,0)"
         />
+        {/*
+          x0,y0 = xStart,yStart
+          x1 = x0+width
+          y1 = y0+height
+        */}
         <Line
           x1={line1x}
           y1={lineA}

@@ -56,7 +56,7 @@ class App extends Component {
   componentDidMount() {
     let radians = 0
       let timer = setInterval(() => {
-         radians += 0.02
+         radians += 0.01
          this.setArcEndFromRadians(radians)
       }, 16)
   }
