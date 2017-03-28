@@ -5,12 +5,12 @@ import { G, Line } from 'react-native-svg';
 class FourStraight extends Component {
   render() {
     const { rotation, xStart, yStart } = this.props;
-    const rot = rotation.toString();
-    const x = xStart.toString(); //100
-    const y = yStart.toString(); //250
-    const xx = (xStart-6).toString(); //94
+    const rot = rotation;
+    const x = xStart; //100
+    const y = yStart; //250
+    const xx = (xStart-6); //94
     const yy = y; //250
-    const yDelta = (yStart+66).toString();
+    const yDelta = (yStart+66);
     return(
       <G rotate={rot} origin={`${x}, ${y}`}>
         <Line

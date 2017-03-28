@@ -7,6 +7,9 @@ import AnimatedImplementation from 'AnimatedImplementation';
 // import { Motion, spring } from 'react-motion';
 //import { FourCurve, FourStraight } from './components/TrackPieces';
 import FourCurve from './components/TrackPieces/FourCurve';
+import CurvePiece from './components/TrackPieces/CurvePiece';
+import StraightPiece from './components/TrackPieces/StraightPiece';
+
 import FourStraight from './components/TrackPieces/FourStraight';
 import BabysFirstTrain from './components/Trains/BabysFirstTrain';
 import SubwayCar from './components/Trains/SubwayCar';
@@ -15,7 +18,8 @@ import AnimateSubwayCar from './components/Trains/AnimateSubwayCar';
 
 // animate SubwayCar
 var AnimatedCar = Animated.createAnimatedComponent(SubwayCar);
-// let AnimatedPath = Animated.createAnimatedComponent(Path);
+var AnimatedCurve = Animated.createAnimatedComponent(FourCurve);
+
 
 //unneccessary, probs:
 // const Animate = {
@@ -31,35 +35,57 @@ class App extends Component {
   //(now, that's not to say CarMovement can't *also* take attributes from the car itself (vs the tracks) - things like speed/easing. however, *direction* IS up to the tracks to determine!)
   constructor(props){
     super(props);
-    this._origin = { x: 200, y: 242.7 }
-    this._radius = 50
+    this._origin = { x: 260, y: 242.7 }
+    this._radius = 65 //<-- controls length of curve // length+5 / -1
     this.state = {
     //   carAnimationValue: new Animated.ValueXY({ x: 66, y: 242.7 }),
     // }
       arcEndX: Math.sin(0) * this._radius,
       arcEndY: Math.cos(0) * this._radius - this._radius,
-      largeArcFlag: Math.sin(0) >= 0 ? 0 : 1,
+      //largeArcFlag: Math.sin(0) >= 0 ? 0 : 1,
       rotation: 90
     }
     this.setArcEndFromRadians = this.setArcEndFromRadians.bind(this)
   }
 
-  setArcEndFromRadians(radians) {
+  setArcEndFromRadians(radians, rot) {
     this.setState({
       arcEndX: Math.sin(radians) * this._radius,
       arcEndY: Math.cos(radians) * this._radius - this._radius,
-      largeArcFlag: Math.sin(radians) >= 0 ? 0 : 1,
-      rotation: this.state.rotation+10
+      //largeArcFlag: Math.sin(radians) >= 0 ? 0 : 1,
+      rotation: this.state.rotation-rot
+    })
+  }
+  moveStraightForward(speedCoef) {
+    this.setState({
+      //arcEndX: this.state.arcEndX+speedCoef, //-->'10' refers to speed
+      arcEndY: this.state.arcEndY-speedCoef
     })
   }
 
   componentDidMount() {
+    let startPt = 0
     let radians = 0
-      let timer = setInterval(() => {
-         radians += 0.01
-         this.setArcEndFromRadians(radians)
-      }, 16)
+    let rot = .9 //<-- controls speed and varies directly to radians
+    let timer = setInterval(() => {
+      if (radians < 2) { //90-degree turn
+        radians += 0.02 //<-- controls speed and varies directly to rot (e.g., radians+=.04; rot = 1.8)
+        this.setArcEndFromRadians(radians, rot)
+        startPt = this.state.arcEndY
+      } else {
+        rot = 0
+        if (startPt < this.state.arcEndY+100) {
+          this.moveStraightForward(1)
+        } else {
+          radians = 0
+          this._origin = { x: this.state.arcEndX+250, y: -this.state.arcEndY-50 }
+        }
+      }
+      //this.setArcEndFromRadians(radians, rot)
+    }, 16)
   }
+
+
 
 // // componentDidMount W/ ANIMATED:
 //     const animationConfig = {
@@ -99,15 +125,17 @@ class App extends Component {
       <View style={styles.container}>
       {/*<Animated.View style={this.getStyle()} />*/}
       <Svg height="750" width="450">
+        <CurvePiece origin={{x: 260, y: 244}} height={this._radius-5} length={this._radius-5} rotation={270} />
+        <StraightPiece origin={{x: 160, y: 144}} length={80} rotation={0} />
         <FourStraight xStart={0} yStart={250} rotation={90}/>
         <FourStraight xStart={66} yStart={250} rotation={90}/>
         <FourStraight xStart={132} yStart={250} rotation={90}/>
         <FourStraight xStart={194} yStart={250} rotation={90}/>
         <FourStraight xStart={260} yStart={250} rotation={90}/>
-        <FourCurve xStart={260} yStart={244} rotation={270} />
+        <FourStraight xStart={326} yStart={104} rotation={0}/>
         <FourStraight xStart={326} yStart={170} rotation={0}/>
         <FourStraight xStart={326} yStart={200} rotation={0}/>
-        <FourStraight xStart={326} yStart={104} rotation={0}/>
+
         {/*<Animated.View    // Special animatable View
           style={{
             opacity: this.state.fadeAnim,
