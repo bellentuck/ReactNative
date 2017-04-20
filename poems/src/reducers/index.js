@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
 import PoemReducer from './PoemReducer';
+import PoetryDbReducer from './PoetryDbReducer';
+
 
 export default combineReducers({
-  poem: PoemReducer
+  poem: PoemReducer,
+  poetryDb: PoetryDbReducer
 });
