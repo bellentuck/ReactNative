@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
-import { nextLine, prevLine, poemStart, poemEnd, poemReset } from '../actions';
-import { Button } from './common';
+import { getRandomPoem,
+  nextLine, prevLine, poemStart, poemEnd, poemReset
+} from '../actions';
+import { Button } from './common'; 
 
 // First, just a single poem;
 // Next, can move on to multiple poems.
@@ -22,12 +24,14 @@ import { Button } from './common';
 
 
 class Poem extends Component {
+  componentWillMount() {
+    this.props.getRandomPoem();
+    const { title, author, lines, linecount } = this.props.currentPoem;
+  }
+
   onTapForNextLine() {
-    const { line } = this.props;
-    console.log(line);
-    this.props.nextLine({ line });
-    console.log(line);
-    //this.setState({line: this.state.line++});
+    const { currentLine } = this.props;
+    this.props.nextLine({ currentLine });
   }
 
   onSwipeForPrevLine(line) {
@@ -46,28 +50,13 @@ class Poem extends Component {
     );
   }
 
-  getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  // Picking the Next Poem Should Be a State Update.
-  // renderPoem(poemSelection) {
-  //   let n = getRandomInt(0, poemSelection.length);
-  //   return (
-  //     <Text style={styles.textStyle}>
-  //       {poemSelection[n].lines[this.props.line]}
-  //     </Text>
-  //   );
-  // }
-
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.onTapForNextLine.bind(this)}>
         <View style={styles.containerStyle}>
         <Text style={styles.textStyle}>
-          {samplePoems[1].lines[this.props.line]}
+          {samplePoems[0].lines[this.props.currentLine]}
+          {/*lines[this.props.currentLine]*/}
         </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -87,13 +76,15 @@ const styles = {
 }
 
 // Hook up state attributes to component props
-const mapStateToProps = ({ poem }) => {
-  const { line, poemHasBegun, poemHasEnded } = poem;
-  return { line, poemHasBegun, poemHasEnded };
+const mapStateToProps = ({ poem, poetryDb }) => {
+  const { currentLine, poemHasBegun, poemHasEnded } = poem;
+  const { currentPoem } = poetryDb;
+  return { currentPoem, currentLine, poemHasBegun, poemHasEnded };
 };
 
 // Hook up state methods to component props
 export default connect(mapStateToProps, {
+  getRandomPoem,
   nextLine, prevLine, poemStart, poemEnd, poemReset
 })(Poem);
 
