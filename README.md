@@ -2,7 +2,7 @@
 
 React Native work goes here.
 
-App Ideas:
+App ideas:
 - <i>poems</i>, prototyped for poetry month, enables what in my experience has been a surprising and depthful poesis of text. The kernel of the idea is simple enough: split up body of text in an app; read a drop; tap for more. I'd like to return to this project to widen the array of public domain works readable therein and add features. One more personal goal is to develop a poetry "appbook."
 - <i>tracks</i> represents a cross between my interest in SVG-based animation in React Native and love for New York City subways. The idea is to build up from math and JavaScript (as opposed to, say, Unity2D) a way of animating systems as trains on tracks. (Ruby on Rails has playfully been a source of inspiration.) One outcome may be a game in which players construct systems of tracks and stations. It's a work in progress, but it's already taught me a lot. The biggest roadblocks I've hit so far have had to do with (lack of) understanding of math and physics, but as of now (November '17) I'm gearing up to return.
 
