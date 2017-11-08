@@ -10,4 +10,6 @@ Contents:
 
 - <i>manager</i> is the final app project of Grider's course. In this project, I applied knowledge from previous projects to create a simple CRUD application with authentication. Tested on iOS and Android emulators. Implemented minor platform-specific styling.
 
+- <i>poems</i>, prototyped for poetry month, enables what in my experience has been a surprising and depthful poesis of text. The kernel of the idea is simple enough: split up body of text in an app; read a drop; tap for more. I'd like to return to this project to widen the array of public domain works readable therein and add features. One more personal goal is to develop a poetry "appbook."
+
 - <i>tech_stack</i> is a third app project from Grider's course. This project introduced me to working with Redux and the ability to associate particular app states with actions via reducer functions. Along the way I also learned how to implement basic animation via LayoutAnimation and render a list of elements in a performant manner via ListView. Tested on iOS and Android emulators.
